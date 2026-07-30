@@ -1,0 +1,33 @@
+lucode,descript,nesting_cavity_availability_index,nesting_ground_availability_index,floral_resources_spring_index,floral_resources_summer_index
+111,Continuous urban fabric,0.05,0.05,0.10,0.10
+112,Discontinuous urban fabric,0.10,0.10,0.25,0.25
+121,Industrial or commercial units,0.05,0.05,0.10,0.10
+122,Road and rail networks,0.05,0.10,0.15,0.15
+123,Port areas,0.02,0.02,0.05,0.05
+124,Airports,0.05,0.20,0.20,0.20
+131,Mineral extraction sites,0.10,0.30,0.15,0.15
+132,Dump sites,0.05,0.15,0.15,0.15
+133,Construction sites,0.05,0.15,0.10,0.10
+141,Green urban areas,0.20,0.25,0.45,0.40
+142,Sport and leisure facilities,0.15,0.20,0.30,0.30
+211,Non-irrigated arable land,0.10,0.30,0.40,0.35
+221,Vineyards,0.20,0.30,0.35,0.25
+222,Fruit trees and berry plantations,0.25,0.25,0.70,0.40
+231,Pastures,0.10,0.45,0.45,0.45
+242,Complex cultivation patterns,0.30,0.40,0.60,0.55
+243,Agriculture with natural vegetation,0.35,0.45,0.65,0.60
+311,Broad-leaved forest,0.65,0.35,0.55,0.30
+312,Coniferous forest,0.45,0.30,0.30,0.25
+313,Mixed forest,0.60,0.35,0.45,0.30
+321,Natural grasslands,0.20,0.70,0.70,0.65
+322,Moors and heathland,0.15,0.50,0.50,0.55
+324,Transitional woodland-shrub,0.45,0.45,0.60,0.55
+331,Beaches dunes sands,0.05,0.40,0.20,0.20
+332,Bare rocks,0.05,0.10,0.05,0.05
+333,Sparsely vegetated areas,0.10,0.30,0.25,0.25
+334,Burnt areas,0.05,0.20,0.20,0.20
+335,Glaciers and perpetual snow,0.00,0.00,0.00,0.00
+411,Inland marshes,0.10,0.20,0.35,0.40
+412,Peat bogs,0.10,0.25,0.35,0.40
+511,Water courses,0.00,0.00,0.00,0.00
+512,Water bodies,0.00,0.00,0.00,0.00

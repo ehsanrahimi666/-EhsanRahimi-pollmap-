@@ -1,0 +1,21 @@
+crop,name,dependence
+0,No Cropland,0.00
+1110,Wheat,0.00
+1120,Barley,0.00
+1130,Maize,0.00
+1140,Rice,0.00
+1150,Other Cereals,0.00
+1210,Fresh Vegetables,0.25
+1220,Dry Pulses,0.25
+1310,Potatoes,0.00
+1320,Sugar Beet,0.00
+1410,Sunflower,0.25
+1420,Soybeans,0.25
+1430,Rapeseed,0.25
+1440,Flax cotton and hemp,0.15
+2100,Grapes,0.00
+2200,Olives,0.00
+2310,Fruits,0.65
+2320,Nuts,0.65
+3100,Unclassified arable crop,0.00
+3200,Unclassified permanent crop,0.00

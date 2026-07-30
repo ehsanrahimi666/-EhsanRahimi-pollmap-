@@ -1,0 +1,40 @@
+Package: pollmap
+Title: Spatial Modelling of Pollination Supply, Demand and Species Distributions
+Version: 0.0.0.9000
+Authors@R:
+    person("Ehsan", "Rahimi", 
+           role = c("aut", "cre"),
+           comment = c(affiliation = "Chungnam National University"))
+Description: A unified, raster-native framework for mapping wild-bee
+    pollination in agricultural landscapes. It implements the distance-decay
+    family of land-use models (Lonsdorf and colleagues 2009
+    <doi:10.1093/aob/mcp069>; the seasonal, guild-based formulation used in
+    InVEST following Kennedy and colleagues 2013
+    <doi:10.1111/ele.12082>; and the quality-weighted, edge-sensitive
+    variant of Rahimi and colleagues 2021 <doi:10.1186/s41610-021-00189-8>),
+    couples species-distribution models to pollination-service maps, and links
+    pollination supply to crop pollinator-dependence demand. The package is
+    designed for reproducible, transparent ecological analysis rather than
+    economic valuation.
+License: GPL-3
+Encoding: UTF-8
+Depends:
+    R (>= 4.1.0)
+Imports:
+    terra (>= 1.7-0),
+    utils
+Suggests:
+    testthat (>= 3.0.0),
+    flexsdm,
+    landscapemetrics,
+    NLMR,
+    mgcv,
+    randomForest,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+URL: https://github.com/ehsanrahimi666/-EhsanRahimi-pollmap-
+BugReports: https://github.com/EhsanRahimi/pollmap/issues
+Config/roxygen2/version: 8.0.0

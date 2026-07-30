@@ -1,0 +1,133 @@
+---
+title: "Getting started with pollmap"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with pollmap}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+`pollmap` maps wild-bee pollination in agricultural landscapes. It brings the
+distance-decay ("Lonsdorf") family of land-use models, a species-distribution
+pathway, and pollinator-dependence demand mapping into one reproducible,
+raster-native framework built on `terra`. This vignette shows the main
+workflows; every function has its own help page with references.
+
+## Installation
+
+```{r}
+# install.packages("remotes")
+remotes::install_github("ehsanrahimi666/pollmap")
+library(pollmap)
+library(terra)
+```
+
+## 1. Land-use supply models
+
+All land-use models share one foraging engine (`poll_kernel()`) and take a
+land-cover raster plus parameter tables.
+
+### The original Lonsdorf (2009) model
+
+```{r}
+lulc <- rast(nrows = 40, ncols = 40, xmin = 0, xmax = 4000, ymin = 0, ymax = 4000)
+values(lulc) <- 1L; lulc[, 1:5] <- 2L          # farmland with a forest strip
+
+lc <- poll_landcover(data.frame(lucode  = c(1L, 2L),
+                                nesting = c(0.05, 1.0),
+                                floral  = c(0.6, 0.2)))
+g  <- poll_guild(alpha = 500, name = "wild_bee")
+
+m  <- poll_lonsdorf(lulc, lc, g)
+plot(m)
+```
+
+### The seasonal, guild-based InVEST model
+
+`poll_kennedy()` uses the full InVEST schema (substrates x seasons x guilds).
+Bundled default tables are provided for CORINE land cover and Swiss bees:
+
+```{r}
+bio    <- poll_biophysical(read.csv(system.file("extdata",
+              "clc_biophysical_table.csv", package = "pollmap")))
+guilds <- poll_guilds(read.csv(system.file("extdata",
+              "swiss_guild_table.csv", package = "pollmap")))
+mk <- poll_kennedy(clc_raster, bio, guilds)     # clc_raster = your CORINE raster
+```
+
+`poll_modified()` (PollMap) adds quality-weighted, flight-range foraging;
+`poll_estimap()` adds abiotic activity modifiers; `poll_mce()` integrates extra
+criteria by weighted linear combination (optionally with AHP weights).
+
+## 2. Species-distribution supply
+
+Fit occurrence models, project to suitability, and couple to a community supply
+surface. The self-contained algorithms are `glm`/`gam`/`rf`; `flexsdm` can be
+used for a fuller workflow.
+
+```{r}
+predictors <- rast(list.files("bioclim", full.names = TRUE))   # your predictors
+occ <- read.csv("Bombus_terrestris.csv")                       # Species, Longitude, Latitude
+
+fit <- poll_sdm(occ, predictors, method = c("glm", "rf"))
+sui <- poll_sdm_project(fit, predictors)
+supply <- poll_sdm_supply(list(sui_sp1, sui_sp2, sui_sp3))      # per-species maps
+```
+
+## 3. Demand and supply-demand balance
+
+```{r}
+dep    <- poll_crop_dependence(read.csv(system.file("extdata",
+              "clms_crop_dependence.csv", package = "pollmap")),
+              crop = "crop", dependence = "dependence")
+demand <- poll_demand(crop_raster, dep)
+bal    <- poll_balance(supply, demand)          # balance + deficit layers
+plot(bal)
+```
+
+## 4. Analysis utilities
+
+These operate on any model output.
+
+```{r}
+# land-use-change scenario: convert forest (2) to farmland (1)
+sc <- poll_scenario(poll_lonsdorf, lulc, lc, g, from = 2L, to = 1L)
+plot(sc$delta)
+
+# uncertainty from resource scores (e.g. Koh et al. 2016 Beta priors)
+draw <- beta_landcover(koh_priors)              # priors with shape1/shape2 columns
+unc  <- poll_sensitivity(run = function() poll_lonsdorf(lulc, draw(), g), n = 100)
+
+# compare several models on identical inputs
+cmp <- poll_compare(lonsdorf = m$map, kennedy = mk$map[["supply"]])
+
+# validate against field data
+val <- poll_validate(m, observed_points, coords = c("x", "y"))
+
+# classify into ordinal classes with an area table
+cl  <- poll_classify(m, n = 5)
+```
+
+## 5. Neutral landscapes
+
+For testing and structure experiments, without external data:
+
+```{r}
+land <- poll_simulate(nrow = 100, ncol = 100, p_habitat = 0.3, autocorr = 3)
+frag <- poll_fragment(p_seq = c(0.1, 0.3, 0.5), autocorr_seq = c(0, 3))
+mets <- poll_metrics(m, lulc)                   # per-class supply (+ landscapemetrics)
+```
+
+## Scope and caveats
+
+`pollmap` produces relative indices of supply, abundance and demand for
+ecological analysis, not economic valuation. The land-use models inherit the
+assumptions of their sources: abundance is a proxy for pollination, floral
+resources are not depleted, and the default parameter tables are
+literature-informed expert values intended to be reviewed and overridden. Use
+`poll_sensitivity()` and `poll_validate()` to quantify and check these.
+```
