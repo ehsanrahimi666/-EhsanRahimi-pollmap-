@@ -3,7 +3,7 @@ Title: Spatial Modelling of Pollination Supply, Demand and Species Distributions
 Version: 0.0.0.9000
 Authors@R: 
     person("Ehsan", "Rahimi", 
-           email = "your.real@email.com", 
+           email = "ehsanrahimi666@gmail.com", 
            role = c("aut", "cre"),
            comment = c(affiliation = "Gyeongkuk National University"))
 Description: A unified, raster-native framework for mapping wild-bee
