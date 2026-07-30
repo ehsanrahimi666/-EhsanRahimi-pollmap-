@@ -15,6 +15,15 @@
 #' @return A list of class `poll_scenario` with `baseline` and `scenario`
 #'   `poll_map`s and a `delta` `SpatRaster` (scenario minus baseline, per layer).
 #' @seealso [poll_compare()]
+#' @examples
+#' library(terra)
+#' lulc <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 2000, ymin = 0, ymax = 2000)
+#' values(lulc) <- 1L; lulc[, 1:3] <- 2L
+#' lc <- poll_landcover(data.frame(lucode = c(1L, 2L),
+#'                                 nesting = c(0.1, 0.9), floral = c(0.6, 0.2)))
+#' # convert the forest strip (2) to farmland (1) and map the change
+#' sc <- poll_scenario(poll_lonsdorf, lulc, lc, poll_guild(400), from = 2L, to = 1L)
+#' plot(sc$delta)
 #' @export
 poll_scenario <- function(fun, lulc, ..., from, to) {
   if (length(from) != length(to)) stop("`from` and `to` must have equal length.", call. = FALSE)
@@ -47,6 +56,12 @@ print.poll_scenario <- function(x, ...) {
 #' @return A function of no arguments returning a `poll_landcover`.
 #' @references Koh, I. et al. (2016) *PNAS*, 113, 140-145.
 #' @seealso [poll_sensitivity()]
+#' @examples
+#' priors <- data.frame(lucode = c(1L, 2L),
+#'   nesting_shape1 = c(2, 8), nesting_shape2 = c(8, 2),
+#'   floral_shape1  = c(5, 3), floral_shape2  = c(3, 5))
+#' draw <- beta_landcover(priors)
+#' draw()   # a freshly sampled poll_landcover
 #' @export
 beta_landcover <- function(priors) {
   priors <- as.data.frame(priors)
@@ -77,6 +92,17 @@ beta_landcover <- function(priors) {
 #'
 #' @return A `poll_map` with `mean`, `sd`, `cv` and quantile layers.
 #' @seealso [beta_landcover()]
+#' @examples
+#' library(terra)
+#' lulc <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 2000, ymin = 0, ymax = 2000)
+#' values(lulc) <- 1L; lulc[, 1:3] <- 2L
+#' priors <- data.frame(lucode = c(1L, 2L),
+#'   nesting_shape1 = c(2, 8), nesting_shape2 = c(8, 2),
+#'   floral_shape1  = c(5, 3), floral_shape2  = c(3, 5))
+#' draw <- beta_landcover(priors)
+#' unc <- poll_sensitivity(function() poll_lonsdorf(lulc, draw(), poll_guild(400)),
+#'                         n = 10)
+#' plot(unc)
 #' @export
 poll_sensitivity <- function(run, n = 50, layer = NULL, probs = c(0.05, 0.95)) {
   if (!is.function(run)) stop("`run` must be a function returning a poll_map/SpatRaster.", call. = FALSE)
@@ -115,6 +141,12 @@ poll_sensitivity <- function(run, n = 50, layer = NULL, probs = c(0.05, 0.95)) {
 #'   number of points used, and a data frame of paired predicted/observed values.
 #' @references Cunningham, C. et al. (2018) *Int. J. Biodiversity Science,
 #'   Ecosystem Services & Management*, 14, 60-70.
+#' @examples
+#' library(terra)
+#' r <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 100, ymin = 0, ymax = 100)
+#' r <- init(r, "y")
+#' obs <- data.frame(x = c(10, 50, 90), y = c(10, 50, 90), observed = c(10, 50, 90))
+#' poll_validate(r, obs, coords = c("x", "y"))
 #' @export
 poll_validate <- function(x, observed, coords = c("x", "y"),
                           value = "observed", layer = NULL) {
@@ -154,6 +186,11 @@ poll_validate <- function(x, observed, coords = c("x", "y"),
 #' @return A list with a `consensus` `SpatRaster`, a `cv` `SpatRaster` and a
 #'   Spearman `correlation` matrix.
 #' @seealso [poll_scenario()]
+#' @examples
+#' library(terra)
+#' r <- rast(nrows = 20, ncols = 20); values(r) <- runif(400)
+#' cmp <- poll_compare(model_a = r, model_b = r * 2)
+#' cmp$correlation
 #' @export
 poll_compare <- function(..., layer = NULL, standardize = TRUE) {
   maps <- list(...)

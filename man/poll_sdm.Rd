@@ -39,6 +39,16 @@ fits an ensemble. For a fuller workflow (spatial-block cross-validation,
 additional algorithms, ensemble weighting) the \pkg{flexsdm} package can be
 used to build the fits externally and passed through unchanged.
 }
+\examples{
+library(terra)
+preds <- rast(nrows = 30, ncols = 30, nlyr = 2,
+              xmin = 0, xmax = 300, ymin = 0, ymax = 300)
+names(preds) <- c("v1", "v2"); values(preds) <- cbind(runif(900), runif(900))
+xy  <- xyFromCell(preds, which(values(preds[["v1"]]) > 0.6))
+occ <- data.frame(Longitude = xy[, 1], Latitude = xy[, 2])
+fit <- poll_sdm(occ, preds, method = "glm", n_background = 200)
+fit
+}
 \references{
 Perennes, M. et al. (2021) \emph{Ecological Modelling}, 444, 109484.
 }

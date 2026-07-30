@@ -28,18 +28,13 @@ distance-decay (foraging) convolution reused by every land-use model.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/EhsanRahimi/pollmap}
+  \item \url{https://github.com/ehsanrahimi666/-EhsanRahimi-pollmap-}
   \item Report bugs at \url{https://github.com/EhsanRahimi/pollmap/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Ehsan Rahimi \email{REPLACE_WITH_YOUR_EMAIL@example.com} (affiliation: Chungnam National University)
-
-Authors:
-\itemize{
-  \item Ehsan Rahimi \email{REPLACE_WITH_YOUR_EMAIL@example.com} (affiliation: Chungnam National University)
-}
+\strong{Maintainer}: Ehsan Rahimi \email{ehsanrahimi666@gmail.com} (Gyeongkuk National University)
 
 }
 \keyword{internal}

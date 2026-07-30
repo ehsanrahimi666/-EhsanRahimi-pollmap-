@@ -21,6 +21,13 @@ Aggregates per-species suitability surfaces into a community pollinator-supply
 index, optionally weighted by relative abundance or pollination effectiveness
 (Polce et al. 2013; Perennes et al. 2021).
 }
+\examples{
+library(terra)
+r <- rast(nrows = 20, ncols = 20)
+s1 <- setValues(r, runif(400)); s2 <- setValues(r, runif(400))
+supply <- poll_sdm_supply(list(s1, s2), weights = c(0.7, 0.3))
+plot(supply)
+}
 \references{
 Polce, C. et al. (2013) \emph{PLoS ONE}, 8, e76308.
 }

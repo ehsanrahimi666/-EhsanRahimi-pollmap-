@@ -24,6 +24,10 @@
 #' @references Klein, A.-M. et al. (2007) *Proceedings of the Royal Society B*,
 #'   274, 303-313. \doi{10.1098/rspb.2006.3721}
 #' @seealso [poll_demand()]
+#' @examples
+#' dep <- poll_crop_dependence(data.frame(crop = c(1L, 2L, 3L),
+#'          dependence = c("modest", "high", "essential")))
+#' dep
 #' @export
 poll_crop_dependence <- function(data, crop = "crop", dependence = "dependence",
                                  ratios = .klein_ratios) {
@@ -60,6 +64,14 @@ poll_crop_dependence <- function(data, crop = "crop", dependence = "dependence",
 #' @references Schulp, C.J.E., Lautenbach, S. & Verburg, P.H. (2014)
 #'   *Ecological Indicators*, 36, 131-141.
 #' @seealso [poll_crop_dependence()], [poll_balance()]
+#' @examples
+#' library(terra)
+#' crop <- rast(nrows = 20, ncols = 20)
+#' values(crop) <- rep(c(0L, 2310L, 1110L), length.out = 400)
+#' dep <- poll_crop_dependence(data.frame(crop = c(0L, 1110L, 2310L),
+#'                                        dependence = c(0, 0, 0.65)))
+#' d <- poll_demand(crop, dep)
+#' plot(d)
 #' @export
 poll_demand <- function(crop, dependence) {
   if (!inherits(crop, "SpatRaster")) stop("`crop` must be a SpatRaster.", call. = FALSE)
@@ -88,6 +100,12 @@ poll_demand <- function(crop, dependence) {
 #'   demand exceeds supply, else 0).
 #' @references Fernandes, J. et al. (2020) *Ecosystems and People*, 16, 212-229.
 #' @seealso [poll_demand()]
+#' @examples
+#' library(terra)
+#' r <- rast(nrows = 20, ncols = 20)
+#' supply <- setValues(r, runif(400)); demand <- setValues(r, runif(400))
+#' b <- poll_balance(supply, demand)
+#' plot(b)
 #' @export
 poll_balance <- function(supply, demand,
                          method = c("difference", "ratio"), standardize = TRUE) {

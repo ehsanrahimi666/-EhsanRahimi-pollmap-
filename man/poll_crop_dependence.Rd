@@ -33,6 +33,11 @@ be supplied directly as a numeric ratio or as a Klein et al. (2007) category
 (\code{none}, \code{little}, \code{modest}, \code{high}, \code{essential}, and common synonyms), which
 is converted to a ratio (0, 0.05, 0.25, 0.65, 0.95).
 }
+\examples{
+dep <- poll_crop_dependence(data.frame(crop = c(1L, 2L, 3L),
+         dependence = c("modest", "high", "essential")))
+dep
+}
 \references{
 Klein, A.-M. et al. (2007) \emph{Proceedings of the Royal Society B},
 274, 303-313. \doi{10.1098/rspb.2006.3721}

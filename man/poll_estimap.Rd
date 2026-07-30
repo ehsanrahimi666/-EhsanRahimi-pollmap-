@@ -31,6 +31,14 @@ neighbourhood and scaled by an activity multiplier combining abiotic and
 landscape modifiers,
 \deqn{PP(x)=C(x)\cdot \mathrm{kernel}(RA)(x).}
 }
+\examples{
+library(terra)
+lulc <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 2000, ymin = 0, ymax = 2000)
+values(lulc) <- 1L; lulc[, 1:3] <- 2L
+scores <- data.frame(lucode = c(1L, 2L), availability = c(0.4, 0.7))
+m <- poll_estimap(lulc, scores, poll_guild(500))
+plot(m)
+}
 \references{
 Zulian, G., Maes, J. & Paracchini, M.L. (2013) \emph{Land}, 2, 472-492.
 \doi{10.3390/land2030472}

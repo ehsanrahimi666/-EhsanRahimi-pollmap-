@@ -38,6 +38,10 @@ testing and for isolating the effect of landscape structure on pollination
 spatially smoothed random field, so no external dependency is required; set
 \code{autocorr = 0} for a spatially random pattern.
 }
+\examples{
+land <- poll_simulate(nrow = 50, ncol = 50, p_habitat = 0.3, autocorr = 3)
+terra::plot(land)
+}
 \references{
 Rahimi, E., Barghjelveh, S. & Dong, P. (2021) \emph{Ecological
 Processes}, 10, 22.

@@ -24,6 +24,8 @@ this object in a later version.
 }
 \examples{
 poll_guild(alpha = 500, name = "Apis")
+g <- poll_guild(alpha = 500, name = "wild_bee")
+g
 }
 \references{
 Greenleaf, S.S., Williams, N.M., Winfree, R. & Kremen, C. (2007) Bee foraging

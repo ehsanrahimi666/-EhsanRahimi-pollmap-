@@ -41,6 +41,15 @@ tractable approximation of central-place foraging rather than the full
 marginal-value optimisation; the exact optimisation is planned for a future
 release.
 }
+\examples{
+library(terra)
+lulc <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 2000, ymin = 0, ymax = 2000)
+values(lulc) <- 1L; lulc[, 1:3] <- 2L
+lc <- poll_landcover(data.frame(lucode = c(1L, 2L),
+                                nesting = c(0.1, 0.9), floral = c(0.6, 0.2)))
+m <- poll_cpf(lulc, lc, poll_guild(300))
+plot(m)
+}
 \references{
 Olsson, O. et al. (2015) \emph{Ecological Modelling}, 316, 133-143.
 \doi{10.1016/j.ecolmodel.2015.08.009}

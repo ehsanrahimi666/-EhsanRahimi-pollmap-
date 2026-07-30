@@ -55,6 +55,11 @@ values(r) <- 0
 r[11, 11] <- 1
 k <- poll_kernel(r, alpha = 300, normalize = FALSE)
 # values decay with distance from the central source
+library(terra)
+r <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 2000, ymin = 0, ymax = 2000)
+values(r) <- 0; r[10, 10] <- 1
+k <- poll_kernel(r, alpha = 300)
+plot(k)
 }
 \references{
 Lonsdorf, E., Kremen, C., Ricketts, T., Winfree, R., Williams, N. &

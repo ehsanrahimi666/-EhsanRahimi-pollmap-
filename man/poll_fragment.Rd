@@ -31,6 +31,11 @@ Produces a series of neutral landscapes spanning combinations of habitat amount
 and aggregation, for fragmentation experiments (Mitchell et al. 2015; Rahimi &
 Jung 2024).
 }
+\examples{
+fr <- poll_fragment(p_seq = c(0.2, 0.5), autocorr_seq = c(0, 3),
+                    nrow = 40, ncol = 40)
+fr
+}
 \references{
 Mitchell, M.G.E. et al. (2015) \emph{Environmental Research Letters},
 10, 094014.

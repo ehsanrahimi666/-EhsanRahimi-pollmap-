@@ -26,6 +26,17 @@ A \code{poll_map} with a single \code{suitability} layer in [0, 1].
 Predicts habitat suitability across a predictor raster from a \code{\link[=poll_sdm]{poll_sdm()}}
 model, averaging over the ensemble members (Polce et al. 2013).
 }
+\examples{
+library(terra)
+preds <- rast(nrows = 30, ncols = 30, nlyr = 2,
+              xmin = 0, xmax = 300, ymin = 0, ymax = 300)
+names(preds) <- c("v1", "v2"); values(preds) <- cbind(runif(900), runif(900))
+xy  <- xyFromCell(preds, which(values(preds[["v1"]]) > 0.6))
+occ <- data.frame(Longitude = xy[, 1], Latitude = xy[, 2])
+fit <- poll_sdm(occ, preds, method = "glm", n_background = 200)
+sui <- poll_sdm_project(fit, preds)
+plot(sui)
+}
 \references{
 Polce, C. et al. (2013) \emph{PLoS ONE}, 8, e76308.
 }

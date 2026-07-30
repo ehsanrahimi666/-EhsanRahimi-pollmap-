@@ -41,6 +41,15 @@ is the overlay device used by ESTIMAP and PollMap (Zulian et al. 2013; Rahimi
 et al. 2021), following weighted-linear-combination practice (Malczewski 2000)
 with weights optionally from the analytic hierarchy process (Saaty 1977).
 }
+\examples{
+library(terra)
+r <- rast(nrows = 20, ncols = 20)
+access   <- setValues(r, runif(400))
+resource <- setValues(r, runif(400))
+s <- poll_mce(list(access = access, resource = resource),
+              weights = c(access = 0.4, resource = 0.6))
+plot(s)
+}
 \references{
 Saaty, T.L. (1977) \emph{Journal of Mathematical Psychology}, 15,
 234-281. Malczewski, J. (2000) \emph{Transactions in GIS}, 4, 5-22.

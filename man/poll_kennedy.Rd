@@ -32,6 +32,24 @@ local floral quality,
 Outputs are aggregated over species. Yield and managed-bee functions are not
 computed (this is an ecological model).
 }
+\examples{
+library(terra)
+lulc <- rast(nrows = 40, ncols = 40, xmin = 0, xmax = 8000, ymin = 0, ymax = 8000)
+values(lulc) <- 211L; lulc[, 1:3] <- 311L
+bio <- poll_biophysical(data.frame(lucode = c(211L, 311L),
+  nesting_cavity_availability_index = c(0.10, 0.65),
+  nesting_ground_availability_index = c(0.30, 0.35),
+  floral_resources_spring_index     = c(0.40, 0.55),
+  floral_resources_summer_index     = c(0.35, 0.30)))
+guilds <- poll_guilds(data.frame(SPECIES = c("Apis", "Osmia"),
+  nesting_suitability_cavity_index = c(1, 1),
+  nesting_suitability_ground_index = c(0, 0.1),
+  foraging_activity_spring_index   = c(1, 1),
+  foraging_activity_summer_index   = c(1, 0.2),
+  alpha = c(800, 250), relative_abundance = c(0.9, 0.5)))
+m <- poll_kennedy(lulc, bio, guilds)
+plot(m)
+}
 \references{
 Kennedy, C.M. et al. (2013) \emph{Ecology Letters}, 16, 584-599.
 Olsson, O. et al. (2015) \emph{Ecological Modelling}, 316, 133-143.

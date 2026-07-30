@@ -33,6 +33,13 @@ number of points used, and a data frame of paired predicted/observed values.
 Compares predicted pollination indices with field observations at survey
 locations using rank correlation and error summaries (Cunningham et al. 2018).
 }
+\examples{
+library(terra)
+r <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 100, ymin = 0, ymax = 100)
+r <- init(r, "y")
+obs <- data.frame(x = c(10, 50, 90), y = c(10, 50, 90), observed = c(10, 50, 90))
+poll_validate(r, obs, coords = c("x", "y"))
+}
 \references{
 Cunningham, C. et al. (2018) \emph{Int. J. Biodiversity Science,
 Ecosystem Services & Management}, 14, 60-70.

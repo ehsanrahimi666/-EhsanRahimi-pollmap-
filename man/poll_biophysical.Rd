@@ -23,6 +23,11 @@ one nesting-availability column per substrate
 season (\verb{floral_resources_<season>_index}). Substrates and seasons are detected
 automatically from the column names. All indices must lie in [0, 1].
 }
+\examples{
+bio <- poll_biophysical(read.csv(system.file("extdata",
+          "clc_biophysical_table.csv", package = "pollmap")))
+bio
+}
 \references{
 Kennedy, C.M. et al. (2013) \emph{Ecology Letters}, 16, 584-599.
 \doi{10.1111/ele.12082}

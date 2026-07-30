@@ -26,6 +26,18 @@ Runs a model repeatedly under sampled inputs and summarises the resulting
 distribution per cell, addressing the uncertainty in expert-derived resource
 scores highlighted by Rouabah et al. (2024).
 }
+\examples{
+library(terra)
+lulc <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 2000, ymin = 0, ymax = 2000)
+values(lulc) <- 1L; lulc[, 1:3] <- 2L
+priors <- data.frame(lucode = c(1L, 2L),
+  nesting_shape1 = c(2, 8), nesting_shape2 = c(8, 2),
+  floral_shape1  = c(5, 3), floral_shape2  = c(3, 5))
+draw <- beta_landcover(priors)
+unc <- poll_sensitivity(function() poll_lonsdorf(lulc, draw(), poll_guild(400)),
+                        n = 10)
+plot(unc)
+}
 \seealso{
 \code{\link[=beta_landcover]{beta_landcover()}}
 }

@@ -22,6 +22,11 @@ with nesting-suitability columns (\verb{nesting_suitability_<substrate>_index}),
 foraging-activity columns (\verb{foraging_activity_<season>_index}), an \code{alpha}
 foraging distance (map units) and a \code{relative_abundance}.
 }
+\examples{
+guilds <- poll_guilds(read.csv(system.file("extdata",
+             "swiss_guild_table.csv", package = "pollmap")))
+guilds
+}
 \references{
 Greenleaf, S.S. et al. (2007) \emph{Oecologia}, 153, 589-596.
 \doi{10.1007/s00442-007-0752-9}

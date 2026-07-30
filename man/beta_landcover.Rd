@@ -19,6 +19,13 @@ distributions (e.g. the priors of Koh et al. 2016) and returns a fresh
 \code{\link[=poll_landcover]{poll_landcover()}} object. Intended as the \code{run} ingredient of
 \code{\link[=poll_sensitivity]{poll_sensitivity()}}.
 }
+\examples{
+priors <- data.frame(lucode = c(1L, 2L),
+  nesting_shape1 = c(2, 8), nesting_shape2 = c(8, 2),
+  floral_shape1  = c(5, 3), floral_shape2  = c(3, 5))
+draw <- beta_landcover(priors)
+draw()   # a freshly sampled poll_landcover
+}
 \references{
 Koh, I. et al. (2016) \emph{PNAS}, 113, 140-145.
 }

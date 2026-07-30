@@ -25,6 +25,16 @@ Re-runs a supply model under a land-cover transition and returns the change in
 pollination. The transition reclassifies land-cover codes \code{from} to codes \code{to};
 all other cells are unchanged (Priess et al. 2007; Rouabah et al. 2024).
 }
+\examples{
+library(terra)
+lulc <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 2000, ymin = 0, ymax = 2000)
+values(lulc) <- 1L; lulc[, 1:3] <- 2L
+lc <- poll_landcover(data.frame(lucode = c(1L, 2L),
+                                nesting = c(0.1, 0.9), floral = c(0.6, 0.2)))
+# convert the forest strip (2) to farmland (1) and map the change
+sc <- poll_scenario(poll_lonsdorf, lulc, lc, poll_guild(400), from = 2L, to = 1L)
+plot(sc$delta)
+}
 \seealso{
 \code{\link[=poll_compare]{poll_compare()}}
 }

@@ -19,6 +19,10 @@
 #' @references Kennedy, C.M. et al. (2013) *Ecology Letters*, 16, 584-599.
 #'   \doi{10.1111/ele.12082}
 #' @seealso [poll_guilds()], [poll_kennedy()]
+#' @examples
+#' bio <- poll_biophysical(read.csv(system.file("extdata",
+#'           "clc_biophysical_table.csv", package = "pollmap")))
+#' bio
 #' @export
 poll_biophysical <- function(data, lucode = "lucode") {
   data <- as.data.frame(data)
@@ -62,6 +66,10 @@ poll_biophysical <- function(data, lucode = "lucode") {
 #' @references Greenleaf, S.S. et al. (2007) *Oecologia*, 153, 589-596.
 #'   \doi{10.1007/s00442-007-0752-9}
 #' @seealso [poll_biophysical()], [poll_kennedy()]
+#' @examples
+#' guilds <- poll_guilds(read.csv(system.file("extdata",
+#'              "swiss_guild_table.csv", package = "pollmap")))
+#' guilds
 #' @export
 poll_guilds <- function(data, species = "SPECIES") {
   data <- as.data.frame(data)
@@ -129,6 +137,23 @@ print.poll_guilds <- function(x, ...) {
 #' Kennedy, C.M. et al. (2013) *Ecology Letters*, 16, 584-599.
 #' Olsson, O. et al. (2015) *Ecological Modelling*, 316, 133-143.
 #' @seealso [poll_biophysical()], [poll_guilds()], [poll_lonsdorf()]
+#' @examples
+#' library(terra)
+#' lulc <- rast(nrows = 40, ncols = 40, xmin = 0, xmax = 8000, ymin = 0, ymax = 8000)
+#' values(lulc) <- 211L; lulc[, 1:3] <- 311L
+#' bio <- poll_biophysical(data.frame(lucode = c(211L, 311L),
+#'   nesting_cavity_availability_index = c(0.10, 0.65),
+#'   nesting_ground_availability_index = c(0.30, 0.35),
+#'   floral_resources_spring_index     = c(0.40, 0.55),
+#'   floral_resources_summer_index     = c(0.35, 0.30)))
+#' guilds <- poll_guilds(data.frame(SPECIES = c("Apis", "Osmia"),
+#'   nesting_suitability_cavity_index = c(1, 1),
+#'   nesting_suitability_ground_index = c(0, 0.1),
+#'   foraging_activity_spring_index   = c(1, 1),
+#'   foraging_activity_summer_index   = c(1, 0.2),
+#'   alpha = c(800, 250), relative_abundance = c(0.9, 0.5)))
+#' m <- poll_kennedy(lulc, bio, guilds)
+#' plot(m)
 #' @export
 poll_kennedy <- function(lulc, biophysical, guilds) {
   if (!inherits(lulc, "SpatRaster")) stop("`lulc` must be a SpatRaster.", call. = FALSE)
@@ -203,6 +228,14 @@ poll_kennedy <- function(lulc, biophysical, guilds) {
 #'   mapping. *Journal of Ecology and Environment*, 45, 22.
 #'   Olsson, O. et al. (2015) *Ecological Modelling*, 316, 133-143.
 #' @seealso [poll_lonsdorf()], [poll_kennedy()]
+#' @examples
+#' library(terra)
+#' lulc <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 2000, ymin = 0, ymax = 2000)
+#' values(lulc) <- 1L; lulc[, 1:3] <- 2L
+#' lc <- poll_landcover(data.frame(lucode = c(1L, 2L),
+#'                                 nesting = c(0.1, 0.9), floral = c(0.6, 0.2)))
+#' m <- poll_modified(lulc, lc, poll_guild(400))
+#' plot(m)
 #' @export
 poll_modified <- function(lulc, landcover, guild,
                           max_dist = guild$alpha,
@@ -255,6 +288,13 @@ poll_modified <- function(lulc, landcover, guild,
 #' @references Zulian, G., Maes, J. & Paracchini, M.L. (2013) *Land*, 2, 472-492.
 #'   \doi{10.3390/land2030472}
 #' @seealso [poll_mce()]
+#' @examples
+#' library(terra)
+#' lulc <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 2000, ymin = 0, ymax = 2000)
+#' values(lulc) <- 1L; lulc[, 1:3] <- 2L
+#' scores <- data.frame(lucode = c(1L, 2L), availability = c(0.4, 0.7))
+#' m <- poll_estimap(lulc, scores, poll_guild(500))
+#' plot(m)
 #' @export
 poll_estimap <- function(lulc, scores, guild, activity = NULL, edge = NULL) {
   if (!inherits(lulc, "SpatRaster")) stop("`lulc` must be a SpatRaster.", call. = FALSE)
@@ -325,6 +365,14 @@ poll_estimap <- function(lulc, scores, guild, activity = NULL, edge = NULL) {
 #' @references Saaty, T.L. (1977) *Journal of Mathematical Psychology*, 15,
 #'   234-281. Malczewski, J. (2000) *Transactions in GIS*, 4, 5-22.
 #' @seealso [poll_estimap()]
+#' @examples
+#' library(terra)
+#' r <- rast(nrows = 20, ncols = 20)
+#' access   <- setValues(r, runif(400))
+#' resource <- setValues(r, runif(400))
+#' s <- poll_mce(list(access = access, resource = resource),
+#'               weights = c(access = 0.4, resource = 0.6))
+#' plot(s)
 #' @export
 poll_mce <- function(criteria, weights, directions = NULL,
                      standardize = TRUE, constraints = NULL) {

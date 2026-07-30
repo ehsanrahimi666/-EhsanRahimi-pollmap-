@@ -16,6 +16,12 @@
 #'
 #' @return A list with the classified `map` (a categorical `SpatRaster`) and an
 #'   `area` data frame (cells and hectares per class).
+#' @examples
+#' library(terra)
+#' r <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 1000, ymin = 0, ymax = 1000)
+#' values(r) <- runif(400)
+#' cl <- poll_classify(r, n = 5)
+#' cl$area
 #' @export
 poll_classify <- function(x, n = 5, labels = NULL,
                           style = c("quantile", "equal"), layer = NULL) {
@@ -52,7 +58,9 @@ poll_classify <- function(x, n = 5, labels = NULL,
   rc <- max(1L, ceiling(r_max / cell))
   offs <- seq.int(-rc, rc)
   dist_m <- outer(offs, offs, function(a, b) sqrt(a^2 + b^2) * cell)
-  w <- pmax(0, 1 - dist_m / r_max)          # net gain declines to 0 at r_max
+  w <- 1 - dist_m / r_max                  # net gain declines to 0 at r_max
+  w[w < 1e-9] <- 1e-9                       # strictly positive; keeps matrix shape
+  # (element assignment preserves dim, which pmax() would drop)
   num <- terra::focal(x, w = w, fun = "sum", na.rm = TRUE, fillvalue = NA)
   if (!normalize) return(num)
   valid <- terra::ifel(is.na(x), 0, 1)
@@ -80,6 +88,14 @@ poll_classify <- function(x, n = 5, labels = NULL,
 #' @references Olsson, O. et al. (2015) *Ecological Modelling*, 316, 133-143.
 #'   \doi{10.1016/j.ecolmodel.2015.08.009}
 #' @seealso [poll_lonsdorf()], [poll_modified()]
+#' @examples
+#' library(terra)
+#' lulc <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 2000, ymin = 0, ymax = 2000)
+#' values(lulc) <- 1L; lulc[, 1:3] <- 2L
+#' lc <- poll_landcover(data.frame(lucode = c(1L, 2L),
+#'                                 nesting = c(0.1, 0.9), floral = c(0.6, 0.2)))
+#' m <- poll_cpf(lulc, lc, poll_guild(300))
+#' plot(m)
 #' @export
 poll_cpf <- function(lulc, landcover, guild,
                      r_max = 2 * guild$alpha, layers = c("supply", "abundance")) {

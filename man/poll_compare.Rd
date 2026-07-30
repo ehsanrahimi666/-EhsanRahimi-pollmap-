@@ -24,6 +24,12 @@ standardises them, and summarises agreement: pairwise rank correlations, a
 per-cell consensus (mean) surface and a disagreement (coefficient of variation)
 surface (Rahimi et al. 2021).
 }
+\examples{
+library(terra)
+r <- rast(nrows = 20, ncols = 20); values(r) <- runif(400)
+cmp <- poll_compare(model_a = r, model_b = r * 2)
+cmp$correlation
+}
 \seealso{
 \code{\link[=poll_scenario]{poll_scenario()}}
 }

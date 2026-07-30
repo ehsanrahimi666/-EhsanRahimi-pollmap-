@@ -19,6 +19,15 @@ Converts a crop-type raster into a relative pollination-demand surface by
 assigning each crop its pollinator-dependence ratio (Schulp et al. 2014;
 Picanco et al. 2017). Non-crop or unmatched cells become 0.
 }
+\examples{
+library(terra)
+crop <- rast(nrows = 20, ncols = 20)
+values(crop) <- rep(c(0L, 2310L, 1110L), length.out = 400)
+dep <- poll_crop_dependence(data.frame(crop = c(0L, 1110L, 2310L),
+                                       dependence = c(0, 0, 0.65)))
+d <- poll_demand(crop, dep)
+plot(d)
+}
 \references{
 Schulp, C.J.E., Lautenbach, S. & Verburg, P.H. (2014)
 \emph{Ecological Indicators}, 36, 131-141.

@@ -33,6 +33,10 @@ poll_landcover(
     floral  = c(0.8, 0.1, 0.5)
   )
 )
+lc <- poll_landcover(data.frame(lucode  = c(1L, 2L),
+                                nesting = c(0.10, 0.90),
+                                floral  = c(0.60, 0.30)))
+lc
 }
 \references{
 Lonsdorf, E., Kremen, C., Ricketts, T., Winfree, R., Williams, N. &

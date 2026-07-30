@@ -20,6 +20,9 @@
 #' @references Rahimi, E., Barghjelveh, S. & Dong, P. (2021) *Ecological
 #'   Processes*, 10, 22.
 #' @seealso [poll_fragment()], [poll_metrics()]
+#' @examples
+#' land <- poll_simulate(nrow = 50, ncol = 50, p_habitat = 0.3, autocorr = 3)
+#' terra::plot(land)
 #' @export
 poll_simulate <- function(nrow = 100, ncol = 100, p_habitat = 0.3,
                           autocorr = 3, resolution = 30,
@@ -53,6 +56,10 @@ poll_simulate <- function(nrow = 100, ncol = 100, p_habitat = 0.3,
 #'   `landscapes` list of `SpatRaster`s.
 #' @references Mitchell, M.G.E. et al. (2015) *Environmental Research Letters*,
 #'   10, 094014.
+#' @examples
+#' fr <- poll_fragment(p_seq = c(0.2, 0.5), autocorr_seq = c(0, 3),
+#'                     nrow = 40, ncol = 40)
+#' fr
 #' @export
 poll_fragment <- function(p_seq = seq(0.1, 0.7, by = 0.2),
                           autocorr_seq = c(0, 3),
@@ -86,6 +93,14 @@ print.poll_fragment <- function(x, ...) {
 #' @return A list with a `class_summary` data frame (always) and, if available, a
 #'   `landscapemetrics` data frame.
 #' @references Hesselbarth, M.H.K. et al. (2019) *Ecography*, 42, 1648-1657.
+#' @examples
+#' library(terra)
+#' lulc <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 2000, ymin = 0, ymax = 2000)
+#' values(lulc) <- 1L; lulc[, 1:3] <- 2L
+#' lc <- poll_landcover(data.frame(lucode = c(1L, 2L),
+#'                                 nesting = c(0.1, 0.9), floral = c(0.6, 0.2)))
+#' m <- poll_lonsdorf(lulc, lc, poll_guild(400), layers = "supply")
+#' poll_metrics(m, lulc)$class_summary
 #' @export
 poll_metrics <- function(x, lulc, metrics = NULL, level = "class") {
   supply <- if (inherits(x, "poll_map")) x$map[[1]] else x[[1]]

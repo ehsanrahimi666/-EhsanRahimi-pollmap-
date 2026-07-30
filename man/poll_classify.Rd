@@ -34,3 +34,10 @@ Reclassifies a pollination layer into \code{n} ordinal classes and returns the
 classified raster together with the area in each class (Rahimi et al. 2021,
 Iran case study).
 }
+\examples{
+library(terra)
+r <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 1000, ymin = 0, ymax = 1000)
+values(r) <- runif(400)
+cl <- poll_classify(r, n = 5)
+cl$area
+}

@@ -35,6 +35,15 @@ print.poll_model <- function(x, ...) {
 #' @return An object of class `poll_model`.
 #' @references Perennes, M. et al. (2021) *Ecological Modelling*, 444, 109484.
 #' @seealso [poll_sdm_project()], [poll_sdm_supply()]
+#' @examples
+#' library(terra)
+#' preds <- rast(nrows = 30, ncols = 30, nlyr = 2,
+#'               xmin = 0, xmax = 300, ymin = 0, ymax = 300)
+#' names(preds) <- c("v1", "v2"); values(preds) <- cbind(runif(900), runif(900))
+#' xy  <- xyFromCell(preds, which(values(preds[["v1"]]) > 0.6))
+#' occ <- data.frame(Longitude = xy[, 1], Latitude = xy[, 2])
+#' fit <- poll_sdm(occ, preds, method = "glm", n_background = 200)
+#' fit
 #' @export
 poll_sdm <- function(occ, predictors, method = "glm",
                      coords = c("Longitude", "Latitude"),
@@ -86,6 +95,16 @@ poll_sdm <- function(occ, predictors, method = "glm",
 #' @return A `poll_map` with a single `suitability` layer in \[0, 1\].
 #' @references Polce, C. et al. (2013) *PLoS ONE*, 8, e76308.
 #' @seealso [poll_sdm()], [poll_sdm_supply()]
+#' @examples
+#' library(terra)
+#' preds <- rast(nrows = 30, ncols = 30, nlyr = 2,
+#'               xmin = 0, xmax = 300, ymin = 0, ymax = 300)
+#' names(preds) <- c("v1", "v2"); values(preds) <- cbind(runif(900), runif(900))
+#' xy  <- xyFromCell(preds, which(values(preds[["v1"]]) > 0.6))
+#' occ <- data.frame(Longitude = xy[, 1], Latitude = xy[, 2])
+#' fit <- poll_sdm(occ, preds, method = "glm", n_background = 200)
+#' sui <- poll_sdm_project(fit, preds)
+#' plot(sui)
 #' @export
 poll_sdm_project <- function(model, predictors) {
   if (!inherits(model, "poll_model")) stop("`model` must be a poll_model.", call. = FALSE)
@@ -124,6 +143,12 @@ predict.poll_model <- function(object, predictors, ...) {
 #' @return A `poll_map` with a single `supply` layer.
 #' @references Polce, C. et al. (2013) *PLoS ONE*, 8, e76308.
 #' @seealso [poll_sdm_project()], [poll_balance()]
+#' @examples
+#' library(terra)
+#' r <- rast(nrows = 20, ncols = 20)
+#' s1 <- setValues(r, runif(400)); s2 <- setValues(r, runif(400))
+#' supply <- poll_sdm_supply(list(s1, s2), weights = c(0.7, 0.3))
+#' plot(supply)
 #' @export
 poll_sdm_supply <- function(suitabilities, weights = NULL) {
   if (inherits(suitabilities, "SpatRaster")) {

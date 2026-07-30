@@ -32,6 +32,13 @@ to locate matches, mismatches and deficits (Schulp et al. 2014; Fernandes et
 al. 2020). Both are placed on a common scale, then compared by difference or
 ratio.
 }
+\examples{
+library(terra)
+r <- rast(nrows = 20, ncols = 20)
+supply <- setValues(r, runif(400)); demand <- setValues(r, runif(400))
+b <- poll_balance(supply, demand)
+plot(b)
+}
 \references{
 Fernandes, J. et al. (2020) \emph{Ecosystems and People}, 16, 212-229.
 }

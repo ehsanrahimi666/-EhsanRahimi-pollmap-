@@ -25,6 +25,15 @@ Summarises a pollination surface by land-cover class (mean value and class
 proportion) and, if the \pkg{landscapemetrics} package is available, computes
 landscape metrics for the land-cover raster (Hesselbarth et al. 2019).
 }
+\examples{
+library(terra)
+lulc <- rast(nrows = 20, ncols = 20, xmin = 0, xmax = 2000, ymin = 0, ymax = 2000)
+values(lulc) <- 1L; lulc[, 1:3] <- 2L
+lc <- poll_landcover(data.frame(lucode = c(1L, 2L),
+                                nesting = c(0.1, 0.9), floral = c(0.6, 0.2)))
+m <- poll_lonsdorf(lulc, lc, poll_guild(400), layers = "supply")
+poll_metrics(m, lulc)$class_summary
+}
 \references{
 Hesselbarth, M.H.K. et al. (2019) \emph{Ecography}, 42, 1648-1657.
 }
