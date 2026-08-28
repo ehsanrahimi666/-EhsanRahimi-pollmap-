@@ -1,0 +1,49 @@
+GBIF download DOI : 10.15468/dl.zhsrsb
+Download key      : 0041106-260806074905277
+Accessed          : 2026-08-28
+Records in DOI    : 227187
+
+DOWNLOAD FILTERS (applied server-side by GBIF; covered by the DOI)
+  country           = CH
+  hasCoordinate     = TRUE
+  hasGeospatialIssue= FALSE
+  year             >= 1990
+  basisOfRecord     in {PRESERVED_SPECIMEN, HUMAN_OBSERVATION}
+
+POST-PROCESSING (applied locally by 01_download_gbif.R, after the DOI)
+  1. records with missing coordinates removed
+  2. exact duplicate coordinates removed within each species
+  3. spatial thinning: one record per 5 km grid cell, on the EPSG:2056 projected grid
+  4. random cap at 1000 records per species (seed = 1 )
+  5. species retained only if >= 20 records survive
+
+Species requested : 26
+Species retained  : 26
+
+Per-species record counts (raw -> thinned):
+  Bombus pascuorum             1990 ->    905
+  Bombus pratorum              1284 ->    771
+  Lasioglossum calceatum       1031 ->    726
+  Bombus lapidarius            1159 ->    721
+  Bombus hortorum               973 ->    660
+  Bombus humilis                993 ->    620
+  Bombus terrestris             961 ->    586
+  Bombus lucorum                811 ->    571
+  Osmia bicornis                839 ->    488
+  Andrena haemorrhoa            717 ->    484
+  Chelostoma florisomne         646 ->    472
+  Bombus hypnorum               641 ->    453
+  Halictus scabiosae            804 ->    447
+  Megachile willughbiella       625 ->    434
+  Andrena flavipes              567 ->    412
+  Anthidium manicatum           664 ->    394
+  Xylocopa violacea             572 ->    376
+  Anthophora plumipes           484 ->    326
+  Bombus sylvarum               470 ->    322
+  Osmia caerulescens            474 ->    319
+  Andrena cineraria             435 ->    303
+  Eucera longicornis            382 ->    299
+  Osmia cornuta                 620 ->    279
+  Bombus ruderarius             367 ->    270
+  Andrena fulva                 242 ->    177
+  Colletes daviesanus           167 ->    132

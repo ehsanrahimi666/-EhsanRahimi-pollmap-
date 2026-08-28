@@ -83,3 +83,11 @@ S. (2009) Modelling pollination services across agricultural landscapes.
 Rahimi, E., Barghjelveh, S. & Dong, P. (2021) Using the Lonsdorf model for
 estimating habitat loss and fragmentation effects on pollination service.
 *Ecological Processes*, 10, 22.
+
+## Data
+
+The 26 occurrence datasets are bundled in `inst/extdata/occurrences`. The full
+case-study data (land cover, climate, crop types, all model outputs and ISO/EML
+metadata) are archived separately at <https://github.com/ehsanrahimi666/pollmap_sample_data>.
+Occurrence records are cited by the GBIF download DOI
+<https://doi.org/10.15468/dl.zhsrsb>.

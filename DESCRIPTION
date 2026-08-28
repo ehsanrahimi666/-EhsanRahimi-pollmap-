@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Ehsan", "Rahimi", 
            email = "ehsanrahimi666@gmail.com", 
-           role = c("aut", "cre", "cph"),
+           role = c("aut", "cre"),
            comment = c(affiliation = "Gyeongkuk National University"))
 Description: A unified, raster-native framework for mapping wild-bee
     pollination in agricultural landscapes. It implements the distance-decay

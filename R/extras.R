@@ -43,7 +43,11 @@ poll_classify <- function(x, n = 5, labels = NULL,
 
   cl <- terra::classify(r, rcl = brks, include.lowest = TRUE, brackets = TRUE)
   k  <- length(brks) - 1
-  levels(cl) <- data.frame(id = seq_len(k), class = labels[seq_len(k)])
+  # terra::classify(brackets = TRUE) returns zero-based category codes, so the
+  # level ids must be taken from the raster rather than assumed to be 1..k.
+  ids <- sort(unique(terra::values(cl, mat = FALSE)))
+  ids <- ids[!is.na(ids)]
+  levels(cl) <- data.frame(id = ids, class = labels[seq_along(ids)])
   names(cl) <- "class"
 
   cell_area <- prod(terra::res(r))
